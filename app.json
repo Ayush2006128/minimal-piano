@@ -39,14 +39,23 @@
           }
         }
       ],
-      "expo-screen-orientation",
-      {
-        "initialOrientation": "LANDSCAPE"
-      }
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "LANDSCAPE"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "004748fb-e15e-49b4-a568-260419b20cbd"
+      }
+    },
+    "owner": "ayush2006128"
   }
 }
