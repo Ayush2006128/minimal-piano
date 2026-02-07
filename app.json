@@ -44,6 +44,26 @@
         {
           "initialOrientation": "LANDSCAPE"
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/StyleScript-Regular.ttf"],
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "StyleScript-Regular",
+                "fontDefinations": [
+                  {
+                    "path": "./assets/fonts/StyleScript-Regular.ttf",
+                    "weight": "400",
+                    "style": "normal"
+                  }
+                ]
+              }
+            ]
+          }
+        }
       ]
     ],
     "experiments": {

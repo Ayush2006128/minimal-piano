@@ -1,11 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TopBar() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.title}>MINIMAL PIANO</Text>
+        <Text style={styles.title}>Minimal Piano</Text>
       </View>
     </SafeAreaView>
   );
@@ -13,19 +14,20 @@ export default function TopBar() {
 
 const styles = StyleSheet.create({
   safeArea: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   container: {
     height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
-    letterSpacing: 2,
-    color: '#333',
+    fontWeight: "bold",
+    fontFamily: "StyleScript-Regular",
+    letterSpacing: 1,
+    color: "#333",
   },
 });
