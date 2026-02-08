@@ -1,5 +1,6 @@
 import PianoBlackKey from "@/components/PianoBlackKey";
 import PianoWhiteKey from "@/components/PianoWhiteKey";
+import { usePianoSound } from "@/hooks/usePianoSound";
 import { StyleSheet, View } from "react-native";
 
 const whiteNotes = ["C", "D", "E", "F", "G", "A", "B", "C"];
@@ -19,13 +20,20 @@ const blackKeysConfig: BlackKeyConfig[] = [
 ];
 
 export default function Index() {
+  const { playNote, stopNote } = usePianoSound();
+
   return (
     <View style={styles.container}>
       <View style={styles.keyboardContainer}>
         <View style={styles.keyboard}>
           {/* White Keys */}
           {whiteNotes.map((note, index) => (
-            <PianoWhiteKey key={`white-${index}`} note={note} />
+            <PianoWhiteKey
+              key={`white-${index}`}
+              note={note}
+              onPressIn={() => playNote(note, index === 7)}
+              onPressOut={() => stopNote(note)}
+            />
           ))}
 
           {/* Black Keys */}
@@ -34,6 +42,8 @@ export default function Index() {
               key={`black-${blackKey.note}`}
               note={blackKey.note}
               offset={blackKey.offset}
+              onPressIn={() => playNote(blackKey.note)}
+              onPressOut={() => stopNote(blackKey.note)}
             />
           ))}
         </View>

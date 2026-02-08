@@ -67,7 +67,8 @@
             ]
           }
         }
-      ]
+      ],
+      "react-native-audio-api"
     ],
     "experiments": {
       "typedRoutes": true,
