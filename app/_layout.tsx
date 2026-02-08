@@ -7,13 +7,13 @@ export default function RootLayout() {
         name="index"
         options={{
           title: "Minimal Piano",
-          headerStyle: { backgroundColor: "#f4511e" },
-          headerTintColor: "#ffffff",
+          headerStyle: { backgroundColor: "#ffffff" },
           headerTitleStyle: {
             fontFamily: "StyleScript-Regular",
             fontSize: 20,
             fontWeight: "bold"
-          }
+          },
+          headerTitleAlign: "center"
         }}
       />
     </Stack>
