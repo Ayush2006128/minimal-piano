@@ -1,6 +1,5 @@
 import PianoBlackKey from "@/components/PianoBlackKey";
 import PianoWhiteKey from "@/components/PianoWhiteKey";
-import TopBar from "@/components/TopBar";
 import { StyleSheet, View } from "react-native";
 
 const whiteNotes = ["C", "D", "E", "F", "G", "A", "B", "C"];
@@ -22,7 +21,6 @@ const blackKeysConfig: BlackKeyConfig[] = [
 export default function Index() {
   return (
     <View style={styles.container}>
-      <TopBar />
       <View style={styles.keyboardContainer}>
         <View style={styles.keyboard}>
           {/* White Keys */}
