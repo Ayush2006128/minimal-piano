@@ -53,7 +53,7 @@
             "fonts": [
               {
                 "fontFamily": "StyleScript-Regular",
-                "fontDefinations": [
+                "fontDefinitions": [
                   {
                     "path": "./assets/fonts/StyleScript-Regular.ttf",
                     "weight": "400",
