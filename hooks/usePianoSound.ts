@@ -23,7 +23,7 @@ export function usePianoSound() {
   useEffect(() => {
     // Create audio context on mount
     audioContextRef.current = new AudioContext();
-    
+
     return () => {
       // Close context on unmount
       audioContextRef.current?.close();
@@ -34,7 +34,7 @@ export function usePianoSound() {
     if (!audioContextRef.current) return;
 
     const ctx = audioContextRef.current;
-    
+
     // Resume context if suspended (common in some environments)
     if (ctx.state === 'suspended') {
       ctx.resume();
@@ -84,11 +84,11 @@ export function usePianoSound() {
             osc.stop();
             osc.disconnect();
             gain.disconnect();
-          } catch (e) {
+          } catch (_) {
             // Ignore errors if already stopped/disconnected
           }
         }, 120);
-      } catch (e) {
+      } catch (_) {
         // Fallback for any timing issues
         osc.stop();
         osc.disconnect();

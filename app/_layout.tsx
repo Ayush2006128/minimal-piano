@@ -1,13 +1,21 @@
-import TopBar from "@/components/TopBar";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
-    <>
-      <TopBar />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-      </Stack>
-    </>
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          title: "Minimal Piano",
+          headerStyle: { backgroundColor: "#f4511e" },
+          headerTintColor: "#ffffff",
+          headerTitleStyle: {
+            fontFamily: "StyleScript-Regular",
+            fontSize: 20,
+            fontWeight: "bold"
+          }
+        }}
+      />
+    </Stack>
   );
 }
