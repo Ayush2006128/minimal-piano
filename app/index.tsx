@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   },
   keyboard: {
     flexDirection: "row",
-    height: 250,
+    height: "100%",
+    width: "100%",
     position: "relative",
     backgroundColor: "#fff",
     borderTopWidth: 1,

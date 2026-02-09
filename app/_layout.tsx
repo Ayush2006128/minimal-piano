@@ -6,7 +6,7 @@ export default function RootLayout() {
   useEffect(() => {
     async function lockOrientation() {
       await ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
+        ScreenOrientation.OrientationLock.LANDSCAPE
       );
     }
     lockOrientation();
