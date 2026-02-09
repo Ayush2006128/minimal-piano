@@ -1,6 +1,17 @@
 import { Stack } from "expo-router";
+import { useEffect } from "react";
+import * as ScreenOrientation from "expo-screen-orientation"
 
 export default function RootLayout() {
+  useEffect(() => {
+    async function lockOrientation() {
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
+      );
+    }
+    lockOrientation();
+  }, []);
+
   return (
     <Stack>
       <Stack.Screen
