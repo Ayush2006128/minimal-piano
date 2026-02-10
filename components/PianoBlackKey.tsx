@@ -5,7 +5,7 @@ interface PianoBlackKeyProps {
   note: string;
   onPressIn?: () => void;
   onPressOut?: () => void;
-  offset: number;
+  offset: string | number;
 }
 
 export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: PianoBlackKeyProps) {
@@ -26,7 +26,11 @@ export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: P
       activeOpacity={1}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      style={[styles.key, { left: offset }, isPressed && styles.keyPressed]}
+      style={[
+        styles.key,
+        { left: offset },
+        isPressed && styles.keyPressed,
+      ]}
     >
       <View style={styles.inner} />
     </TouchableOpacity>
@@ -35,7 +39,7 @@ export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: P
 
 const styles = StyleSheet.create({
   key: {
-    width: 40,
+    width: '8%',
     height: '60%',
     backgroundColor: '#333',
     position: 'absolute',
@@ -47,6 +51,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
+    marginLeft: '-4%', // Half of width to center on the offset position
   },
   keyPressed: {
     backgroundColor: '#000',

@@ -34,7 +34,7 @@ export default function PianoWhiteKey({ note, onPressIn, onPressOut }: PianoWhit
 
 const styles = StyleSheet.create({
   key: {
-    width: 60,
+    flex: 1,
     height: '100%',
     backgroundColor: 'white',
     borderWidth: 1,
