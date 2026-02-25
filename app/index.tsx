@@ -2,6 +2,10 @@ import PianoBlackKey from "@/components/PianoBlackKey";
 import PianoWhiteKey from "@/components/PianoWhiteKey";
 import { usePianoSound } from "@/hooks/usePianoSound";
 import { StyleSheet, View } from "react-native";
+import { Stack } from "expo-router";
+import { useState } from "react";
+import ZoomControls from "@/components/ui/ZoomControls";
+import OctaveControls from "@/components/ui/OctaveControls";
 
 const whiteNotes = ["C", "D", "E", "F", "G", "A", "B", "C"];
 
@@ -21,9 +25,21 @@ const blackKeysConfig: BlackKeyConfig[] = [
 
 export default function Index() {
   const { playNote, stopNote } = usePianoSound();
+  const [zoom, setZoom] = useState(1);
+  const [currentOctave, setCurrentOctave] = useState(4);
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <ZoomControls zoom={zoom} onZoomChange={setZoom} />
+          ),
+          headerRight: () => (
+            <OctaveControls currentOctave={currentOctave} onOctaveChange={setCurrentOctave} />
+          ),
+        }}
+      />
       <View style={styles.keyboard}>
         {/* White Keys */}
         {whiteNotes.map((note, index) => (

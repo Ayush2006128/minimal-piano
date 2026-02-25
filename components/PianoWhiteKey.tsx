@@ -11,6 +11,7 @@ export default function PianoWhiteKey({ note, onPressIn, onPressOut }: PianoWhit
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => {
+    if (isPressed) return;
     setIsPressed(true);
     onPressIn?.();
   };

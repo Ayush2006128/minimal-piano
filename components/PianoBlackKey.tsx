@@ -12,6 +12,7 @@ export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: P
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => {
+    if (isPressed) return;
     setIsPressed(true);
     onPressIn?.();
   };

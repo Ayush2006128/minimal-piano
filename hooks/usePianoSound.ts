@@ -40,8 +40,8 @@ export function usePianoSound() {
       ctx.resume();
     }
 
-    // Stop if already playing the same note to avoid stacking
-    stopNote(note);
+    // Don't re-trigger if already playing
+    if (activeNotes.current.has(note)) return;
 
     let frequency = NOTE_FREQUENCIES[note] || 440;
     if (isOctave) {
@@ -55,9 +55,11 @@ export function usePianoSound() {
     osc.type = 'triangle';
     osc.frequency.setValueAtTime(frequency, ctx.currentTime);
 
-    // Simple ADSR-like envelope (Attack and Sustain)
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.02); // Quick attack
+    // Improved ADSR-like envelope (Attack and Decay)
+    const now = ctx.currentTime;
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.4, now + 0.01); // Quick attack
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 2.0); // Decay over 2 seconds to near-silence
 
     osc.connect(gain);
     gain.connect(ctx.destination);
