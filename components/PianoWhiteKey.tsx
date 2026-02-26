@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
 interface PianoWhiteKeyProps {
   note: string;
   onPressIn?: () => void;
   onPressOut?: () => void;
+  label?: string;
 }
 
-export default function PianoWhiteKey({ note, onPressIn, onPressOut }: PianoWhiteKeyProps) {
+export default function PianoWhiteKey({ note, onPressIn, onPressOut, label }: PianoWhiteKeyProps) {
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => {
@@ -28,7 +29,9 @@ export default function PianoWhiteKey({ note, onPressIn, onPressOut }: PianoWhit
       onPressOut={handlePressOut}
       style={[styles.key, isPressed && styles.keyPressed]}
     >
-      <View style={styles.inner} />
+      <View style={styles.inner}>
+        {label && <Text style={styles.label}>{label}</Text>}
+      </View>
     </TouchableOpacity>
   );
 }
@@ -48,5 +51,13 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  label: {
+    fontSize: 10,
+    color: '#999',
+    fontWeight: '600',
   },
 });

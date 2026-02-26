@@ -30,7 +30,7 @@ export function usePianoSound() {
     };
   }, []);
 
-  const playNote = (note: string, isOctave: boolean = false) => {
+  const playNote = (note: string, octave: number = 4) => {
     if (!audioContextRef.current) return;
 
     const ctx = audioContextRef.current;
@@ -41,12 +41,12 @@ export function usePianoSound() {
     }
 
     // Don't re-trigger if already playing
-    if (activeNotes.current.has(note)) return;
+    const noteKey = `${note}${octave}`;
+    if (activeNotes.current.has(noteKey)) return;
 
     let frequency = NOTE_FREQUENCIES[note] || 440;
-    if (isOctave) {
-      frequency *= 2;
-    }
+    // Calculate frequency based on octave (NOTE_FREQUENCIES is for Octave 4)
+    frequency *= Math.pow(2, octave - 4);
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -66,13 +66,13 @@ export function usePianoSound() {
 
     osc.start();
     osc.stop(now + 2.0); // Ensure the oscillator stops after decay
-    activeNotes.current.set(note, { osc, gain });
+    activeNotes.current.set(noteKey, { osc, gain });
 
     // Automatically remove from active notes after decay to allow re-triggering
     // and cleanup resources if stopNote wasn't called (e.g. key held down)
     setTimeout(() => {
-      if (activeNotes.current.get(note)?.osc === osc) {
-        activeNotes.current.delete(note);
+      if (activeNotes.current.get(noteKey)?.osc === osc) {
+        activeNotes.current.delete(noteKey);
         try {
           osc.disconnect();
           gain.disconnect();
@@ -83,8 +83,9 @@ export function usePianoSound() {
     }, 2100);
   };
 
-  const stopNote = (note: string) => {
-    const active = activeNotes.current.get(note);
+  const stopNote = (note: string, octave: number = 4) => {
+    const noteKey = `${note}${octave}`;
+    const active = activeNotes.current.get(noteKey);
     if (active && audioContextRef.current) {
       const { osc, gain } = active;
       const ctx = audioContextRef.current;
@@ -112,7 +113,7 @@ export function usePianoSound() {
         gain.disconnect();
       }
 
-      activeNotes.current.delete(note);
+      activeNotes.current.delete(noteKey);
     }
   };
 

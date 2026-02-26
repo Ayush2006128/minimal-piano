@@ -7,26 +7,80 @@ import { useState } from "react";
 import ZoomControls from "@/components/ui/ZoomControls";
 import OctaveControls from "@/components/ui/OctaveControls";
 
-const whiteNotes = ["C", "D", "E", "F", "G", "A", "B", "C"];
-
-interface BlackKeyConfig {
-  note: string;
-  whiteKeyIndex: number;
-  offset: string;
-}
-
-const blackKeysConfig: BlackKeyConfig[] = [
-  { note: "C#", whiteKeyIndex: 0, offset: "12.5%" },
-  { note: "D#", whiteKeyIndex: 1, offset: "25%" },
-  { note: "F#", whiteKeyIndex: 3, offset: "50%" },
-  { note: "G#", whiteKeyIndex: 4, offset: "62.5%" },
-  { note: "A#", whiteKeyIndex: 5, offset: "75%" },
+const OCTAVE_WHITE_NOTES = ["C", "D", "E", "F", "G", "A", "B"];
+const BLACK_KEYS_DATA = [
+  { note: "C#", afterIndex: 0 },
+  { note: "D#", afterIndex: 1 },
+  { note: "F#", afterIndex: 3 },
+  { note: "G#", afterIndex: 4 },
+  { note: "A#", afterIndex: 5 },
 ];
 
 export default function Index() {
   const { playNote, stopNote } = usePianoSound();
   const [zoom, setZoom] = useState(1);
   const [currentOctave, setCurrentOctave] = useState(4);
+
+  const totalWhiteKeysCount = zoom * 7 + 1;
+  const whiteKeyWidthPercent = 100 / totalWhiteKeysCount;
+
+  const renderKeyboard = () => {
+    const whiteKeys = [];
+    const blackKeys = [];
+
+    for (let o = 0; o < zoom; o++) {
+      const octave = currentOctave + o;
+      const octaveStartIdx = o * 7;
+
+      // Add white keys for this octave
+      OCTAVE_WHITE_NOTES.forEach((note, index) => {
+        whiteKeys.push(
+          <PianoWhiteKey
+            key={`white-${octave}-${note}`}
+            note={note}
+            label={note === "C" ? `${note}${octave}` : undefined}
+            onPressIn={() => playNote(note, octave)}
+            onPressOut={() => stopNote(note, octave)}
+          />
+        );
+      });
+
+      // Add black keys for this octave
+      BLACK_KEYS_DATA.forEach((data) => {
+        const globalIdx = octaveStartIdx + data.afterIndex;
+        const offset = `${(globalIdx + 1) * whiteKeyWidthPercent}%`;
+        blackKeys.push(
+          <PianoBlackKey
+            key={`black-${octave}-${data.note}`}
+            note={data.note}
+            offset={offset}
+            width={`${whiteKeyWidthPercent * 0.7}%`}
+            onPressIn={() => playNote(data.note, octave)}
+            onPressOut={() => stopNote(data.note, octave)}
+          />
+        );
+      });
+    }
+
+    // Add the final trailing 'C' key
+    const finalOctave = currentOctave + zoom;
+    whiteKeys.push(
+      <PianoWhiteKey
+        key={`white-${finalOctave}-C`}
+        note="C"
+        label={`C${finalOctave}`}
+        onPressIn={() => playNote("C", finalOctave)}
+        onPressOut={() => stopNote("C", finalOctave)}
+      />
+    );
+
+    return (
+      <View style={styles.keyboard}>
+        {whiteKeys}
+        {blackKeys}
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -44,28 +98,7 @@ export default function Index() {
           ),
         }}
       />
-      <View style={styles.keyboard}>
-        {/* White Keys */}
-        {whiteNotes.map((note, index) => (
-          <PianoWhiteKey
-            key={`white-${index}`}
-            note={note}
-            onPressIn={() => playNote(note, index === 7)}
-            onPressOut={() => stopNote(note)}
-          />
-        ))}
-
-        {/* Black Keys */}
-        {blackKeysConfig.map((blackKey) => (
-          <PianoBlackKey
-            key={`black-${blackKey.note}`}
-            note={blackKey.note}
-            offset={blackKey.offset}
-            onPressIn={() => playNote(blackKey.note)}
-            onPressOut={() => stopNote(blackKey.note)}
-          />
-        ))}
-      </View>
+      {renderKeyboard()}
     </View>
   );
 }

@@ -6,9 +6,16 @@ interface PianoBlackKeyProps {
   onPressIn?: () => void;
   onPressOut?: () => void;
   offset: string | number;
+  width?: string | number;
 }
 
-export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: PianoBlackKeyProps) {
+export default function PianoBlackKey({
+  note,
+  onPressIn,
+  onPressOut,
+  offset,
+  width = '8%',
+}: PianoBlackKeyProps) {
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => {
@@ -22,6 +29,8 @@ export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: P
     onPressOut?.();
   };
 
+  const widthVal = typeof width === 'string' ? parseFloat(width) : width;
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -29,7 +38,11 @@ export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: P
       onPressOut={handlePressOut}
       style={[
         styles.key,
-        { left: offset },
+        {
+          left: offset,
+          width: width,
+          marginLeft: typeof width === 'string' ? `-${widthVal / 2}%` : -widthVal / 2,
+        },
         isPressed && styles.keyPressed,
       ]}
     >
@@ -40,7 +53,6 @@ export default function PianoBlackKey({ note, onPressIn, onPressOut, offset }: P
 
 const styles = StyleSheet.create({
   key: {
-    width: '8%',
     height: '60%',
     backgroundColor: '#333',
     position: 'absolute',
@@ -52,7 +64,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
-    marginLeft: '-4%', // Half of width to center on the offset position
   },
   keyPressed: {
     backgroundColor: '#000',
