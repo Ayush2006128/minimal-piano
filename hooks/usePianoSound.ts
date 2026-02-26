@@ -59,13 +59,28 @@ export function usePianoSound() {
     const now = ctx.currentTime;
     gain.gain.setValueAtTime(0, now);
     gain.gain.linearRampToValueAtTime(0.4, now + 0.01); // Quick attack
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 2.0); // Decay over 2 seconds to near-silence
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0); // Decay over 2 seconds to near-silence
 
     osc.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start();
+    osc.stop(now + 2.0); // Ensure the oscillator stops after decay
     activeNotes.current.set(note, { osc, gain });
+
+    // Automatically remove from active notes after decay to allow re-triggering
+    // and cleanup resources if stopNote wasn't called (e.g. key held down)
+    setTimeout(() => {
+      if (activeNotes.current.get(note)?.osc === osc) {
+        activeNotes.current.delete(note);
+        try {
+          osc.disconnect();
+          gain.disconnect();
+        } catch (_) {
+          // Ignore errors
+        }
+      }
+    }, 2100);
   };
 
   const stopNote = (note: string) => {
