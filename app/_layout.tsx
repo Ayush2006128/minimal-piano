@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { useEffect } from "react";
-import * as ScreenOrientation from "expo-screen-orientation"
-
+import * as ScreenOrientation from "expo-screen-orientation";
+import { StatusBar } from "expo-status-bar";
 export default function RootLayout() {
   useEffect(() => {
     async function lockOrientation() {
@@ -14,6 +14,7 @@ export default function RootLayout() {
 
   return (
     <Stack>
+      <StatusBar style="light"/>
       <Stack.Screen
         name="index"
         options={{
