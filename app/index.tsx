@@ -36,7 +36,11 @@ export default function Index() {
             <ZoomControls zoom={zoom} onZoomChange={setZoom} />
           ),
           headerRight: () => (
-            <OctaveControls currentOctave={currentOctave} onOctaveChange={setCurrentOctave} />
+            <OctaveControls
+              currentOctave={currentOctave}
+              onOctaveChange={setCurrentOctave}
+              disabled={zoom > 1}
+            />
           ),
         }}
       />
