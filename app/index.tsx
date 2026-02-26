@@ -4,6 +4,7 @@ import { usePianoSound } from "@/hooks/usePianoSound";
 import { Stack } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import Keyboard from "@/components/Keyboard";
 
 export default function Index() {
   const { playNote, stopNote } = usePianoSound();
