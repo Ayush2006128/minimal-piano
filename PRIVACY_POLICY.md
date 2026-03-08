@@ -29,4 +29,4 @@ We may update our Privacy Policy from time to time. Thus, you are advised to rev
 
 ## 6. Contact Us
 
-If you have any questions or suggestions about our Privacy Policy, please feel free to contact the developer.
+If you have any questions or suggestions about our Privacy Policy, please feel free to contact the developer at [ayush.muley2006@gmail.com](mailto).
