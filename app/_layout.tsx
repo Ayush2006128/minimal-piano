@@ -1,7 +1,8 @@
+import * as NavigationBar from "expo-navigation-bar";
 import { Stack } from "expo-router";
-import { useEffect } from "react";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 
 export default function RootLayout() {
   useEffect(() => {
@@ -10,6 +11,13 @@ export default function RootLayout() {
         ScreenOrientation.OrientationLock.LANDSCAPE
       );
     }
+
+    async function hideNavigationBar() {
+      await NavigationBar.setVisibilityAsync("hidden");
+      await NavigationBar.setBehaviorAsync("overlay-swipe");
+    }
+
+    hideNavigationBar();
     lockOrientation();
   }, []);
 
@@ -20,7 +28,7 @@ export default function RootLayout() {
           name="index"
           options={{
             title: "Minimal Piano",
-            headerStyle: { backgroundColor: "#ffffff" },
+            headerStyle: { backgroundColor: "#e0e0e0" },
             headerTitleStyle: {
               fontFamily: "StyleScript-Regular",
               fontSize: 20,
@@ -30,7 +38,7 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-      <StatusBar style="dark" />
+      <StatusBar hidden={true} />
     </>
   );
 }
