@@ -21,47 +21,80 @@ export default function OctaveControls({
   const isMax = currentOctave >= maxOctave;
 
   return (
-    <View style={[styles.container, disabled && styles.disabled]}>
+    <View style={[styles.outerContainer, disabled && styles.disabled]}>
       <TouchableOpacity
         onPress={() => onOctaveChange(Math.max(minOctave, currentOctave - 1))}
-        style={[styles.iconButton, (isMin || disabled) && styles.buttonDisabled]}
+        style={[styles.tactileButton, (isMin || disabled) && styles.buttonDisabled]}
         disabled={isMin || disabled}
       >
-        <Ionicons name="chevron-back-outline" size={24} color={isMin || disabled ? "#ccc" : "#333"} />
+        <Ionicons name="chevron-back" size={20} color={isMin || disabled ? "#bbb" : "#444"} />
       </TouchableOpacity>
-      <Text style={[styles.text, (isMin || isMax || disabled) && { color: '#999' }]}>
-        Octave {currentOctave}
-      </Text>
+      
+      <View style={styles.displayPanel}>
+        <Text style={[styles.labelText]}>OCTAVE</Text>
+        <Text style={[styles.valueText, (isMin || isMax || disabled) && { color: '#666' }]}>
+          {currentOctave}
+        </Text>
+      </View>
+
       <TouchableOpacity
         onPress={() => onOctaveChange(Math.min(maxOctave, currentOctave + 1))}
-        style={[styles.iconButton, (isMax || disabled) && styles.buttonDisabled]}
+        style={[styles.tactileButton, (isMax || disabled) && styles.buttonDisabled]}
         disabled={isMax || disabled}
       >
-        <Ionicons name="chevron-forward-outline" size={24} color={isMax || disabled ? "#ccc" : "#333"} />
+        <Ionicons name="chevron-forward" size={20} color={isMax || disabled ? "#bbb" : "#444"} />
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  outerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    paddingHorizontal: 10,
   },
-  iconButton: {
-    padding: 5,
-  },
-  disabled: {
-    opacity: 0.5,
+  tactileButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    backgroundColor: '#eee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    // Shadow for depth
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   buttonDisabled: {
-    // optional extra styling for disabled buttons
+    backgroundColor: '#f5f5f5',
+    borderColor: '#eee',
+    elevation: 0,
+    shadowOpacity: 0,
   },
-  text: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginHorizontal: 4,
+  displayPanel: {
+    marginHorizontal: 10,
+    alignItems: 'center',
+    minWidth: 50,
+  },
+  labelText: {
+    fontSize: 8,
+    fontWeight: '800',
+    color: '#888',
+    letterSpacing: 0.5,
+  },
+  valueText: {
+    fontSize: 16,
+    fontWeight: '900',
     color: '#333',
+    marginTop: -2,
+    fontFamily: 'monospace',
+  },
+  disabled: {
+    opacity: 0.6,
   },
 });
