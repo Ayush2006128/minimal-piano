@@ -88,7 +88,6 @@ export default function Keyboard({
         {blackKeys}
         <View style={styles.lidShadow} pointerEvents="none" />
       </View>
-      <View style={styles.bottomBar} />
     </View>
   );
 }
@@ -136,12 +135,5 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: "rgba(0, 0, 0, 0.25)",
     zIndex: 10,
-  },
-  bottomBar: {
-    height: 20,
-    backgroundColor: "#333",
-    width: "100%",
-    borderTopWidth: 1,
-    borderTopColor: "#444",
   },
 });
