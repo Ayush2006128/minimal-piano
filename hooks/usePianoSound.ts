@@ -35,50 +35,71 @@ export function usePianoSound() {
 
     const ctx = audioContextRef.current;
 
-    // Resume context if suspended (common in some environments)
     if (ctx.state === 'suspended') {
       ctx.resume();
     }
 
-    // Don't re-trigger if already playing
     const noteKey = `${note}${octave}`;
     if (activeNotes.current.has(noteKey)) return;
 
     let frequency = NOTE_FREQUENCIES[note] || 440;
-    // Calculate frequency based on octave (NOTE_FREQUENCIES is for Octave 4)
     frequency *= Math.pow(2, octave - 4);
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
+    
+    // 1. Create the Filter
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
 
-    // Piano-like sound: Triangle wave is softer than square/sawtooth
-    osc.type = 'triangle';
+    if (octave <= 2) {
+      osc.type = 'sawtooth';
+    } else if (octave === 3) {
+      osc.type = 'square';
+    } else {
+      osc.type = 'triangle';
+    }
+      
     osc.frequency.setValueAtTime(frequency, ctx.currentTime);
 
-    // Improved ADSR-like envelope (Attack and Decay)
-    const now = ctx.currentTime;
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.4, now + 0.01); // Quick attack
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0); // Decay over 2 seconds to near-silence
+    let targetGain = 0.4;
+    if (octave <= 2) targetGain = 0.8;
+    else if (octave === 3) targetGain = 0.6;
+    else if (octave >= 6) targetGain = 0.2;
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    const now = ctx.currentTime;
+
+    // 2. The Filter Envelope (Dynamic Tone)
+    // A real piano string starts bright when the hammer hits, then loses high frequencies over time.
+    // We set the cutoff frequency to 4x the fundamental note (bright attack), 
+    // then decay it down to 1.5x the fundamental note (warm sustain).
+    filter.frequency.setValueAtTime(frequency * 4, now); 
+    filter.frequency.exponentialRampToValueAtTime(frequency * 1.5, now + 1.5);
+
+    // Volume Envelope
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(targetGain, now + 0.01); 
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0); 
+
+    // 3. The New Audio Chain Connections
+    osc.connect(filter);       // Osc goes into Filter
+    filter.connect(gain);      // Filter goes into Volume Control
+    gain.connect(ctx.destination); // Volume goes to Speakers
 
     osc.start();
-    osc.stop(now + 2.0); // Ensure the oscillator stops after decay
-    activeNotes.current.set(noteKey, { osc, gain });
+    osc.stop(now + 2.0); 
+    
+    // Store the filter as well so we can clean it up later
+    activeNotes.current.set(noteKey, { osc, gain, filter } as any);
 
-    // Automatically remove from active notes after decay to allow re-triggering
-    // and cleanup resources if stopNote wasn't called (e.g. key held down)
     setTimeout(() => {
       if (activeNotes.current.get(noteKey)?.osc === osc) {
         activeNotes.current.delete(noteKey);
         try {
           osc.disconnect();
+          filter.disconnect(); // Cleanup filter
           gain.disconnect();
-        } catch (_) {
-          // Ignore errors
-        }
+        } catch (_) {}
       }
     }, 2100);
   };
