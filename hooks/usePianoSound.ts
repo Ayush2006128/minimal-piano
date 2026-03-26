@@ -107,30 +107,44 @@ export function usePianoSound() {
   const stopNote = (note: string, octave: number = 4) => {
     const noteKey = `${note}${octave}`;
     const active = activeNotes.current.get(noteKey);
+    
     if (active && audioContextRef.current) {
-      const { osc, gain } = active;
+      // Note: Make sure your useRef type includes filter: BiquadFilterNode
+      const { osc, gain, filter } = active as any; 
       const ctx = audioContextRef.current;
+      const now = ctx.currentTime;
 
-      // Release envelope
       try {
-        gain.gain.cancelScheduledValues(ctx.currentTime);
-        gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1); // Quick release
+        // 1. Stop the playNote envelope from continuing
+        gain.gain.cancelScheduledValues(now);
+        filter.frequency.cancelScheduledValues(now);
 
-        // Stop oscillator after release
+        // 2. Lock in the exact current values so there are no sudden volume/tone jumps
+        gain.gain.setValueAtTime(gain.gain.value, now);
+        filter.frequency.setValueAtTime(filter.frequency.value, now);
+
+        // 3. The Release Envelope (Fade out)
+        // Drop volume to near-zero over 120ms
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12); 
+        // Dull the sound immediately to simulate the piano damper
+        filter.frequency.exponentialRampToValueAtTime(100, now + 0.12); 
+
+        // 4. Disconnect everything slightly after the fade finishes
         setTimeout(() => {
           try {
             osc.stop();
             osc.disconnect();
+            filter.disconnect();
             gain.disconnect();
           } catch (_) {
-            // Ignore errors if already stopped/disconnected
+            // Ignore if the system already cleaned it up
           }
-        }, 120);
+        }, 150); 
       } catch (_) {
-        // Fallback for any timing issues
+        // Emergency fallback if the scheduling fails
         osc.stop();
         osc.disconnect();
+        filter?.disconnect();
         gain.disconnect();
       }
 
