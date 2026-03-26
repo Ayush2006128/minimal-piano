@@ -1,40 +1,21 @@
-import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 
 interface PianoWhiteKeyProps {
   note: string;
-  onPressIn?: () => void;
-  onPressOut?: () => void;
+  isPressed?: boolean;
   label?: string;
 }
 
-export default function PianoWhiteKey({ note, onPressIn, onPressOut, label }: PianoWhiteKeyProps) {
-  const [isPressed, setIsPressed] = useState(false);
-
-  const handlePressIn = () => {
-    if (isPressed) return;
-    setIsPressed(true);
-    onPressIn?.();
-  };
-
-  const handlePressOut = () => {
-    setIsPressed(false);
-    onPressOut?.();
-  };
-
+export default function PianoWhiteKey({ note, isPressed = false, label }: PianoWhiteKeyProps) {
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      style={[styles.key, isPressed && styles.keyPressed]}
-    >
+    <View style={[styles.key, isPressed && styles.keyPressed]}>
       <View style={styles.topHighlight} />
       <View style={styles.inner}>
         {label && <Text style={styles.label}>{label}</Text>}
       </View>
       <View style={[styles.bottomLip, isPressed && styles.bottomLipPressed]} />
-    </TouchableOpacity>
+    </View>
   );
 }
 

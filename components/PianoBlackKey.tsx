@@ -1,56 +1,39 @@
-import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { DimensionValue, StyleSheet, View } from 'react-native';
 
 interface PianoBlackKeyProps {
   note: string;
-  onPressIn?: () => void;
-  onPressOut?: () => void;
+  isPressed?: boolean;
   offset: string | number;
   width?: string | number;
 }
 
 export default function PianoBlackKey({
   note,
-  onPressIn,
-  onPressOut,
+  isPressed = false,
   offset,
   width = '8%',
 }: PianoBlackKeyProps) {
-  const [isPressed, setIsPressed] = useState(false);
-
-  const handlePressIn = () => {
-    if (isPressed) return;
-    setIsPressed(true);
-    onPressIn?.();
-  };
-
-  const handlePressOut = () => {
-    setIsPressed(false);
-    onPressOut?.();
-  };
-
   const widthVal = typeof width === 'string' ? parseFloat(width) : width;
 
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
+    <View
       style={[
         styles.key,
         {
-          left: offset,
-          width: width,
-          marginLeft: typeof width === 'string' ? `-${widthVal / 2}%` : -widthVal / 2,
+          left: offset as DimensionValue,
+          width: width as DimensionValue,
+          marginLeft: (typeof width === 'string' ? `-${widthVal / 2}%` : -widthVal / 2) as DimensionValue,
         },
         isPressed && styles.keyPressed,
       ]}
+      pointerEvents="none"
     >
       <View style={styles.topSurface}>
         <View style={styles.topHighlight} />
       </View>
       <View style={[styles.bottomLip, isPressed && styles.bottomLipPressed]} />
-    </TouchableOpacity>
+    </View>
   );
 }
 
