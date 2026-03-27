@@ -4,9 +4,9 @@ import { JSX, useCallback, useMemo, useRef, useState } from "react";
 import {
   GestureResponderEvent,
   LayoutChangeEvent,
-  StyleSheet,
-  View,
+  View
 } from "react-native";
+import keyboardStyle from "../styles/keybordStyle";
 
 const OCTAVE_WHITE_NOTES = ["C", "D", "E", "F", "G", "A", "B"];
 const BLACK_KEYS_DATA = [
@@ -324,12 +324,12 @@ export default function Keyboard({
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topBar}>
-        <View style={styles.topBarHighlight} />
+    <View style={keyboardStyle.container}>
+      <View style={keyboardStyle.topBar}>
+        <View style={keyboardStyle.topBarHighlight} />
       </View>
       <View
-        style={styles.keyboard}
+        style={keyboardStyle.keyboard}
         onLayout={onKeyboardLayout}
         onStartShouldSetResponder={() => true}
         onMoveShouldSetResponder={() => true}
@@ -338,57 +338,13 @@ export default function Keyboard({
         onResponderRelease={releaseTouches}
         onResponderTerminate={releaseTouches}
       >
-        <View style={styles.feltStrip} pointerEvents="none" />
+        <View style={keyboardStyle.feltStrip} pointerEvents="none" />
         {whiteKeys}
         {blackKeys}
-        <View style={styles.lidShadow} pointerEvents="none" />
+        <View style={keyboardStyle.lidShadow} pointerEvents="none" />
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-  },
-  topBar: {
-    height: 12,
-    backgroundColor: "#222",
-    width: "100%",
-    borderBottomWidth: 1,
-    borderBottomColor: "#000",
-  },
-  topBarHighlight: {
-    height: 2,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    width: "100%",
-  },
-  feltStrip: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 4,
-    backgroundColor: "#b22222", // Firebrick red felt
-    zIndex: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(0,0,0,0.2)",
-  },
-  keyboard: {
-    flexDirection: "row",
-    flex: 1,
-    width: "100%",
-    position: "relative",
-    backgroundColor: "#fff",
-  },
-  lidShadow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 15,
-    backgroundColor: "rgba(0, 0, 0, 0.25)",
-    zIndex: 10,
-  },
-});
+

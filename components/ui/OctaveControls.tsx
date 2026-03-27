@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import octaveControlsStyle from '@/styles/octaveControlsStyle';
 import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 interface OctaveControlsProps {
   currentOctave: number;
@@ -21,25 +22,25 @@ export default function OctaveControls({
   const isMax = currentOctave >= maxOctave;
 
   return (
-    <View style={[styles.outerContainer, disabled && styles.disabled]}>
+    <View style={[octaveControlsStyle.outerContainer, disabled && octaveControlsStyle.disabled]}>
       <TouchableOpacity
         onPress={() => onOctaveChange(Math.max(minOctave, currentOctave - 1))}
-        style={[styles.tactileButton, (isMin || disabled) && styles.buttonDisabled]}
+        style={[octaveControlsStyle.tactileButton, (isMin || disabled) && octaveControlsStyle.buttonDisabled]}
         disabled={isMin || disabled}
       >
         <Ionicons name="chevron-back" size={20} color={isMin || disabled ? "#bbb" : "#444"} />
       </TouchableOpacity>
-      
-      <View style={styles.displayPanel}>
-        <Text style={[styles.labelText]}>OCTAVE</Text>
-        <Text style={[styles.valueText, (isMin || isMax || disabled) && { color: '#666' }]}>
+
+      <View style={octaveControlsStyle.displayPanel}>
+        <Text style={[octaveControlsStyle.labelText]}>OCTAVE</Text>
+        <Text style={[octaveControlsStyle.valueText, (isMin || isMax || disabled) && { color: '#666' }]}>
           {currentOctave}
         </Text>
       </View>
 
       <TouchableOpacity
         onPress={() => onOctaveChange(Math.min(maxOctave, currentOctave + 1))}
-        style={[styles.tactileButton, (isMax || disabled) && styles.buttonDisabled]}
+        style={[octaveControlsStyle.tactileButton, (isMax || disabled) && octaveControlsStyle.buttonDisabled]}
         disabled={isMax || disabled}
       >
         <Ionicons name="chevron-forward" size={20} color={isMax || disabled ? "#bbb" : "#444"} />
@@ -48,53 +49,4 @@ export default function OctaveControls({
   );
 }
 
-const styles = StyleSheet.create({
-  outerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
-  tactileButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    backgroundColor: '#eee',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    // Shadow for depth
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  buttonDisabled: {
-    backgroundColor: '#f5f5f5',
-    borderColor: '#eee',
-    elevation: 0,
-    shadowOpacity: 0,
-  },
-  displayPanel: {
-    marginHorizontal: 10,
-    alignItems: 'center',
-    minWidth: 50,
-  },
-  labelText: {
-    fontSize: 8,
-    fontWeight: '800',
-    color: '#888',
-    letterSpacing: 0.5,
-  },
-  valueText: {
-    fontSize: 16,
-    fontWeight: '900',
-    color: '#333',
-    marginTop: -2,
-    fontFamily: 'monospace',
-  },
-  disabled: {
-    opacity: 0.6,
-  },
-});
+

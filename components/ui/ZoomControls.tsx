@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import zoomControlsStyle from '@/styles/zoomControlsStyle';
 import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 interface ZoomControlsProps {
   zoom: number;
@@ -19,25 +20,25 @@ export default function ZoomControls({
   const isMax = zoom >= maxZoom;
 
   return (
-    <View style={styles.outerContainer}>
+    <View style={zoomControlsStyle.outerContainer}>
       <TouchableOpacity
         onPress={() => onZoomChange(Math.max(minZoom, zoom - 1))}
-        style={[styles.tactileButton, isMin && styles.buttonDisabled]}
+        style={[zoomControlsStyle.tactileButton, isMin && zoomControlsStyle.buttonDisabled]}
         disabled={isMin}
       >
         <Ionicons name="remove" size={20} color={isMin ? "#bbb" : "#444"} />
       </TouchableOpacity>
 
-      <View style={styles.displayPanel}>
-        <Text style={styles.labelText}>ZOOM</Text>
-        <Text style={[styles.valueText, (isMin || isMax) && { color: '#666' }]}>
+      <View style={zoomControlsStyle.displayPanel}>
+        <Text style={zoomControlsStyle.labelText}>ZOOM</Text>
+        <Text style={[zoomControlsStyle.valueText, (isMin || isMax) && { color: '#666' }]}>
           {zoom}
         </Text>
       </View>
 
       <TouchableOpacity
         onPress={() => onZoomChange(Math.min(maxZoom, zoom + 1))}
-        style={[styles.tactileButton, isMax && styles.buttonDisabled]}
+        style={[zoomControlsStyle.tactileButton, isMax && zoomControlsStyle.buttonDisabled]}
         disabled={isMax}
       >
         <Ionicons name="add" size={20} color={isMax ? "#bbb" : "#444"} />
@@ -46,50 +47,3 @@ export default function ZoomControls({
   );
 }
 
-const styles = StyleSheet.create({
-  outerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
-  tactileButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    backgroundColor: '#eee',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    // Shadow for depth
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  buttonDisabled: {
-    backgroundColor: '#f5f5f5',
-    borderColor: '#eee',
-    elevation: 0,
-    shadowOpacity: 0,
-  },
-  displayPanel: {
-    marginHorizontal: 10,
-    alignItems: 'center',
-    minWidth: 40,
-  },
-  labelText: {
-    fontSize: 8,
-    fontWeight: '800',
-    color: '#888',
-    letterSpacing: 0.5,
-  },
-  valueText: {
-    fontSize: 16,
-    fontWeight: '900',
-    color: '#333',
-    marginTop: -2,
-    fontFamily: 'monospace',
-  },
-});
