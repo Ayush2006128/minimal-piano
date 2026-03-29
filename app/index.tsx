@@ -27,7 +27,7 @@ export default function Index() {
   const handleExport = async () => {
     const filePath = await exporter.exportToWav(recorder.noteEvents);
     if (filePath) {
-      Alert.alert("Export Complete", `Saved to:\n${filePath}`);
+      Alert.alert("Export Complete", "Recording saved successfully!");
     } else if (exporter.exportError) {
       Alert.alert("Export Failed", exporter.exportError);
     }

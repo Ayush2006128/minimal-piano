@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "minimalpiano",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
@@ -47,7 +46,9 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/StyleScript-Regular.ttf"],
+          "fonts": [
+            "./assets/fonts/StyleScript-Regular.ttf"
+          ],
           "android": {
             "fonts": [
               {
