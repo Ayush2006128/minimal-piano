@@ -65,7 +65,9 @@
           }
         }
       ],
-      "react-native-audio-api"
+      "react-native-audio-api",
+      "@logrocket/react-native",
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -155,7 +155,7 @@ export function useWavExporter() {
 
         // 8. Save via SAF (Android) or fallback (other platforms)
         const timestamp = Date.now();
-        const fileName = `piano_recording_${timestamp}`;
+        const fileName = `piano_recording_${timestamp}.wav`;
         let savedUri: string;
 
         if (Platform.OS === 'android') {

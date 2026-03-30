@@ -1,3 +1,4 @@
+import Keyboard from "@/components/Keyboard";
 import OctaveControls from "@/components/ui/OctaveControls";
 import RecordControls from "@/components/ui/RecordControls";
 import ZoomControls from "@/components/ui/ZoomControls";
@@ -6,8 +7,8 @@ import { useRecorder } from "@/hooks/useRecorder";
 import { useWavExporter } from "@/hooks/useWavExporter";
 import { Stack } from "expo-router";
 import { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
-import Keyboard from "@/components/Keyboard";
+import { StyleSheet, View } from "react-native";
+import Toast from "react-native-toast-message";
 
 export default function Index() {
   const { playNote, stopNote } = usePianoSound();
@@ -27,9 +28,17 @@ export default function Index() {
   const handleExport = async () => {
     const filePath = await exporter.exportToWav(recorder.noteEvents);
     if (filePath) {
-      Alert.alert("Export Complete", "Recording saved successfully!");
+      Toast.show({
+        type: "success",
+        text1: "Export Complete",
+        text2: "Recording saved successfully!",
+      });
     } else if (exporter.exportError) {
-      Alert.alert("Export Failed", exporter.exportError);
+      Toast.show({
+        type: "error",
+        text1: "Export Failed",
+        text2: exporter.exportError,
+      });
     }
   };
 

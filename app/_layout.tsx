@@ -1,8 +1,10 @@
+import LogRocket from "@logrocket/react-native";
 import * as NavigationBar from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
   useEffect(() => {
@@ -19,6 +21,7 @@ export default function RootLayout() {
 
     hideNavigationBar();
     lockOrientation();
+    LogRocket.init('nmwfzu/minimal-piano');
   }, []);
 
   return (
@@ -39,6 +42,7 @@ export default function RootLayout() {
         />
       </Stack>
       <StatusBar hidden={true} />
+      <Toast />
     </>
   );
 }
