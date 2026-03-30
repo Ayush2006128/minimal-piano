@@ -1,5 +1,6 @@
 import zoomControlsStyle from '@/styles/zoomControlsStyle';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
@@ -22,7 +23,10 @@ export default function ZoomControls({
   return (
     <View style={zoomControlsStyle.outerContainer}>
       <TouchableOpacity
-        onPress={() => onZoomChange(Math.max(minZoom, zoom - 1))}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          onZoomChange(Math.max(minZoom, zoom - 1));
+        }}
         style={[zoomControlsStyle.tactileButton, isMin && zoomControlsStyle.buttonDisabled]}
         disabled={isMin}
       >
@@ -37,7 +41,10 @@ export default function ZoomControls({
       </View>
 
       <TouchableOpacity
-        onPress={() => onZoomChange(Math.min(maxZoom, zoom + 1))}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          onZoomChange(Math.min(maxZoom, zoom + 1));
+        }}
         style={[zoomControlsStyle.tactileButton, isMax && zoomControlsStyle.buttonDisabled]}
         disabled={isMax}
       >

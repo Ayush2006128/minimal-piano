@@ -1,5 +1,6 @@
 import recordControlsStyle from '@/styles/recordControlsStyle';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Text, TouchableOpacity, View } from 'react-native';
 
@@ -60,7 +61,10 @@ export default function RecordControls({
       {/* Record / Stop button */}
       <Animated.View style={{ opacity: isExporting ? 0.5 : 1 }}>
         <TouchableOpacity
-          onPress={onToggleRecord}
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            onToggleRecord();
+          }}
           style={[
             recordControlsStyle.tactileButton,
             recordControlsStyle.recordButton,
@@ -94,7 +98,10 @@ export default function RecordControls({
 
       {/* Export button */}
       <TouchableOpacity
-        onPress={onExport}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          onExport();
+        }}
         style={[
           recordControlsStyle.tactileButton,
           !canExport && recordControlsStyle.buttonDisabled,
@@ -110,7 +117,10 @@ export default function RecordControls({
 
       {/* Clear button */}
       <TouchableOpacity
-        onPress={onClear}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          onClear();
+        }}
         style={[
           recordControlsStyle.tactileButton,
           !canClear && recordControlsStyle.buttonDisabled,

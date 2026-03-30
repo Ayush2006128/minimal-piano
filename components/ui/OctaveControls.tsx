@@ -1,5 +1,6 @@
 import octaveControlsStyle from '@/styles/octaveControlsStyle';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
@@ -24,7 +25,10 @@ export default function OctaveControls({
   return (
     <View style={[octaveControlsStyle.outerContainer, disabled && octaveControlsStyle.disabled]}>
       <TouchableOpacity
-        onPress={() => onOctaveChange(Math.max(minOctave, currentOctave - 1))}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          onOctaveChange(Math.max(minOctave, currentOctave - 1));
+        }}
         style={[octaveControlsStyle.tactileButton, (isMin || disabled) && octaveControlsStyle.buttonDisabled]}
         disabled={isMin || disabled}
       >
@@ -39,7 +43,10 @@ export default function OctaveControls({
       </View>
 
       <TouchableOpacity
-        onPress={() => onOctaveChange(Math.min(maxOctave, currentOctave + 1))}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          onOctaveChange(Math.min(maxOctave, currentOctave + 1));
+        }}
         style={[octaveControlsStyle.tactileButton, (isMax || disabled) && octaveControlsStyle.buttonDisabled]}
         disabled={isMax || disabled}
       >

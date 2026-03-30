@@ -1,6 +1,7 @@
 import Keyboard from "@/components/Keyboard";
 import OctaveControls from "@/components/ui/OctaveControls";
 import RecordControls from "@/components/ui/RecordControls";
+import SponserBtn from "@/components/ui/SponserBtn";
 import ZoomControls from "@/components/ui/ZoomControls";
 import { usePianoSound } from "@/hooks/usePianoSound";
 import { useRecorder } from "@/hooks/useRecorder";
@@ -46,7 +47,12 @@ export default function Index() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <ZoomControls zoom={zoom} onZoomChange={setZoom} />,
+          headerLeft: () => (
+            <View style={styles.headerLeft}>
+              <ZoomControls zoom={zoom} onZoomChange={setZoom} />
+              <SponserBtn />
+            </View>
+          ),
           headerRight: () => (
             <View style={styles.headerRight}>
               <RecordControls
@@ -81,8 +87,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e0e0e0",
   },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
   headerRight: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
 });
