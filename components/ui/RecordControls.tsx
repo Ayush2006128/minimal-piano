@@ -1,9 +1,9 @@
-import recordControlsStyle from '@/styles/recordControlsStyle';
-import { colors } from '@/styles/theme';
-import { Ionicons } from '@expo/vector-icons';
-import * as Haptics from 'expo-haptics';
-import React, { useEffect, useRef } from 'react';
-import { Animated, Text, TouchableOpacity, View } from 'react-native';
+import recordControlsStyle from "@/styles/recordControlsStyle";
+import { colors } from "@/styles/theme";
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
+import React, { useEffect, useRef } from "react";
+import { Animated, Text, TouchableOpacity, View } from "react-native";
 
 interface RecordControlsProps {
   isRecording: boolean;
@@ -22,45 +22,12 @@ export default function RecordControls({
   onExport,
   onClear,
 }: RecordControlsProps) {
-  // Pulse animation for the record dot (scale + opacity)
-  const pulseScale = useRef(new Animated.Value(1)).current;
-  const pulseOpacity = useRef(new Animated.Value(1)).current;
   // Glow ring animation (expanding ring behind button)
   const glowScale = useRef(new Animated.Value(1)).current;
   const glowOpacity = useRef(new Animated.Value(0.6)).current;
 
   useEffect(() => {
     if (isRecording) {
-      // Dot pulse: scale up and fade simultaneously
-      const dotPulse = Animated.loop(
-        Animated.sequence([
-          Animated.parallel([
-            Animated.timing(pulseScale, {
-              toValue: 1.35,
-              duration: 500,
-              useNativeDriver: true,
-            }),
-            Animated.timing(pulseOpacity, {
-              toValue: 0.4,
-              duration: 500,
-              useNativeDriver: true,
-            }),
-          ]),
-          Animated.parallel([
-            Animated.timing(pulseScale, {
-              toValue: 1,
-              duration: 500,
-              useNativeDriver: true,
-            }),
-            Animated.timing(pulseOpacity, {
-              toValue: 1,
-              duration: 500,
-              useNativeDriver: true,
-            }),
-          ]),
-        ]),
-      );
-
       // Glow ring: expands outward and fades away
       const glowPulse = Animated.loop(
         Animated.sequence([
@@ -91,39 +58,35 @@ export default function RecordControls({
         ]),
       );
 
-      dotPulse.start();
       glowPulse.start();
       return () => {
-        dotPulse.stop();
         glowPulse.stop();
       };
     } else {
-      pulseScale.setValue(1);
-      pulseOpacity.setValue(1);
       glowScale.setValue(1);
       glowOpacity.setValue(0);
     }
-  }, [isRecording, pulseScale, pulseOpacity, glowScale, glowOpacity]);
+  }, [isRecording, glowScale, glowOpacity]);
 
   const canExport = hasRecording && !isRecording && !isExporting;
   const canClear = hasRecording && !isRecording && !isExporting;
 
   // Status label
-  let statusText = 'IDLE';
-  if (isRecording) statusText = 'REC';
-  else if (isExporting) statusText = 'SAVING';
-  else if (hasRecording) statusText = 'READY';
+  let statusText = "IDLE";
+  if (isRecording) statusText = "REC";
+  else if (isExporting) statusText = "SAVING";
+  else if (hasRecording) statusText = "READY";
 
   return (
     <View style={recordControlsStyle.outerContainer}>
       {/* Record / Stop button */}
       <Animated.View style={{ opacity: isExporting ? 0.5 : 1 }}>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
           {/* Glow ring behind the button */}
           {isRecording && (
             <Animated.View
               style={{
-                position: 'absolute',
+                position: "absolute",
                 width: 34,
                 height: 34,
                 borderRadius: 8,
@@ -149,15 +112,7 @@ export default function RecordControls({
             {isRecording ? (
               <View style={recordControlsStyle.stopSquare} />
             ) : (
-              <Animated.View
-                style={[
-                  recordControlsStyle.recordDot,
-                  {
-                    opacity: pulseOpacity,
-                    transform: [{ scale: pulseScale }],
-                  },
-                ]}
-              />
+              <View style={recordControlsStyle.recordDot} />
             )}
           </TouchableOpacity>
         </View>

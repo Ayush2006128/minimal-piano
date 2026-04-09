@@ -1,12 +1,12 @@
 import Keyboard from "@/components/Keyboard";
-import { colors } from "@/styles/theme";
 import OctaveControls from "@/components/ui/OctaveControls";
 import RecordControls from "@/components/ui/RecordControls";
-import SponserBtn from "@/components/ui/SponserBtn";
+import SponserBtn from "@/components/ui/SponsorBtn";
 import ZoomControls from "@/components/ui/ZoomControls";
 import { usePianoSound } from "@/hooks/usePianoSound";
 import { useRecorder } from "@/hooks/useRecorder";
 import { useWavExporter } from "@/hooks/useWavExporter";
+import { colors } from "@/styles/theme";
 import { Stack } from "expo-router";
 import { useState } from "react";
 import { Platform, StyleSheet, ToastAndroid, View } from "react-native";
@@ -41,7 +41,10 @@ export default function Index() {
       }
     } else if (exporter.exportError) {
       if (Platform.OS === "android") {
-        ToastAndroid.show(`Export Failed: ${exporter.exportError}`, ToastAndroid.LONG);
+        ToastAndroid.show(
+          `Export Failed: ${exporter.exportError}`,
+          ToastAndroid.LONG,
+        );
       } else {
         Toast.show({
           type: "error",
