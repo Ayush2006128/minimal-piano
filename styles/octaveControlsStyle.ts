@@ -1,48 +1,42 @@
 import { StyleSheet } from "react-native";
+import { buttonShadow, colors, disabledState, radii, spacing, typography } from "./theme";
 
 const octaveControlsStyle = StyleSheet.create({
     outerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 10,
+        paddingHorizontal: spacing.controlPadding,
     },
     tactileButton: {
         width: 36,
         height: 36,
-        borderRadius: 8,
-        backgroundColor: '#eee',
+        borderRadius: radii.button,
+        backgroundColor: colors.buttonBg,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#ddd',
+        borderColor: colors.border,
         // Shadow for depth
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 3,
+        ...buttonShadow,
     },
     buttonDisabled: {
-        backgroundColor: '#f5f5f5',
-        borderColor: '#eee',
-        elevation: 0,
-        shadowOpacity: 0,
+        ...disabledState,
     },
     displayPanel: {
-        marginHorizontal: 10,
+        marginHorizontal: spacing.controlPadding,
         alignItems: 'center',
         minWidth: 50,
     },
     labelText: {
         fontSize: 8,
-        fontWeight: '800',
-        color: '#888',
-        letterSpacing: 0.5,
+        fontWeight: typography.labelWeight,
+        color: colors.labelText,
+        letterSpacing: typography.labelLetterSpacing,
     },
     valueText: {
         fontSize: 16,
-        fontWeight: '900',
-        color: '#333',
+        fontWeight: typography.valueWeight,
+        color: colors.valueText,
         marginTop: -2,
         fontFamily: 'monospace',
     },

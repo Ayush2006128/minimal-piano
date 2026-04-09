@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { buttonShadow, colors, disabledState, radii, typography } from './theme';
 
 const recordControlsStyle = StyleSheet.create({
   outerContainer: {
@@ -9,31 +10,24 @@ const recordControlsStyle = StyleSheet.create({
   tactileButton: {
     width: 34,
     height: 34,
-    borderRadius: 8,
-    backgroundColor: '#eee',
+    borderRadius: radii.button,
+    backgroundColor: colors.buttonBg,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#ddd',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    borderColor: colors.border,
+    ...buttonShadow,
     marginHorizontal: 2,
   },
   recordButton: {
-    backgroundColor: '#eee',
+    backgroundColor: colors.buttonBg,
   },
   recordButtonActive: {
-    backgroundColor: '#ff4444',
-    borderColor: '#cc0000',
+    backgroundColor: colors.recordRed,
+    borderColor: colors.recordRedDark,
   },
   buttonDisabled: {
-    backgroundColor: '#f5f5f5',
-    borderColor: '#eee',
-    elevation: 0,
-    shadowOpacity: 0,
+    ...disabledState,
     opacity: 0.5,
   },
   displayPanel: {
@@ -43,30 +37,30 @@ const recordControlsStyle = StyleSheet.create({
   },
   labelText: {
     fontSize: 7,
-    fontWeight: '800',
-    color: '#888',
-    letterSpacing: 0.5,
+    fontWeight: typography.labelWeight,
+    color: colors.labelText,
+    letterSpacing: typography.labelLetterSpacing,
   },
   valueText: {
     fontSize: 10,
-    fontWeight: '900',
-    color: '#333',
+    fontWeight: typography.valueWeight,
+    color: colors.valueText,
     marginTop: -1,
   },
   recordingLabel: {
-    color: '#ff4444',
+    color: colors.recordRed,
   },
   recordDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#ff4444',
+    backgroundColor: colors.recordRed,
   },
   stopSquare: {
     width: 8,
     height: 8,
     borderRadius: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
 });
 

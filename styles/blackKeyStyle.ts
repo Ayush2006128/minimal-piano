@@ -1,24 +1,25 @@
 import { StyleSheet } from "react-native";
+import { colors, radii } from "./theme";
 
 const blackKeyStyle = StyleSheet.create({
     key: {
         height: '62%',
-        backgroundColor: '#111',
+        backgroundColor: colors.blackKey,
         position: 'absolute',
         zIndex: 1,
-        borderBottomLeftRadius: 6,
-        borderBottomRightRadius: 6,
+        borderBottomLeftRadius: radii.key,
+        borderBottomRightRadius: radii.key,
         borderWidth: 1,
-        borderColor: '#000',
+        borderColor: colors.blackKeyPressed,
         // Shadow for depth
-        shadowColor: '#000',
+        shadowColor: colors.shadow,
         shadowOffset: { width: 4, height: 6 },
         shadowOpacity: 0.6,
         shadowRadius: 6,
         elevation: 8,
     },
     keyPressed: {
-        backgroundColor: '#000',
+        backgroundColor: colors.blackKeyPressed,
         height: '60%',
         transform: [{ translateY: 2 }],
         shadowOpacity: 0.3,
@@ -27,7 +28,7 @@ const blackKeyStyle = StyleSheet.create({
     },
     topSurface: {
         flex: 1,
-        backgroundColor: '#222',
+        backgroundColor: colors.darkSurface,
         borderTopLeftRadius: 4,
         borderTopRightRadius: 4,
         paddingHorizontal: 2,
@@ -35,21 +36,21 @@ const blackKeyStyle = StyleSheet.create({
     },
     topHighlight: {
         height: 6,
-        backgroundColor: '#444',
+        backgroundColor: colors.blackKeyHighlight,
         borderRadius: 3,
         opacity: 0.5,
     },
     bottomLip: {
         height: 12,
-        backgroundColor: '#1a1a1a',
+        backgroundColor: colors.blackKeyAccent,
         borderTopWidth: 1,
-        borderTopColor: '#333',
-        borderBottomLeftRadius: 6,
-        borderBottomRightRadius: 6,
+        borderTopColor: colors.blackKeyBorder,
+        borderBottomLeftRadius: radii.key,
+        borderBottomRightRadius: radii.key,
     },
     bottomLipPressed: {
         height: 8,
-        backgroundColor: '#111',
+        backgroundColor: colors.blackKey,
     },
 });
 

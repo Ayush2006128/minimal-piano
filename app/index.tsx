@@ -1,4 +1,5 @@
 import Keyboard from "@/components/Keyboard";
+import { colors } from "@/styles/theme";
 import OctaveControls from "@/components/ui/OctaveControls";
 import RecordControls from "@/components/ui/RecordControls";
 import SponserBtn from "@/components/ui/SponserBtn";
@@ -8,7 +9,7 @@ import { useRecorder } from "@/hooks/useRecorder";
 import { useWavExporter } from "@/hooks/useWavExporter";
 import { Stack } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, ToastAndroid, View } from "react-native";
 import Toast from "react-native-toast-message";
 
 export default function Index() {
@@ -29,17 +30,25 @@ export default function Index() {
   const handleExport = async () => {
     const filePath = await exporter.exportToWav(recorder.noteEvents);
     if (filePath) {
-      Toast.show({
-        type: "success",
-        text1: "Export Complete",
-        text2: "Recording saved successfully!",
-      });
+      if (Platform.OS === "android") {
+        ToastAndroid.show("Recording saved successfully!", ToastAndroid.SHORT);
+      } else {
+        Toast.show({
+          type: "success",
+          text1: "Export Complete",
+          text2: "Recording saved successfully!",
+        });
+      }
     } else if (exporter.exportError) {
-      Toast.show({
-        type: "error",
-        text1: "Export Failed",
-        text2: exporter.exportError,
-      });
+      if (Platform.OS === "android") {
+        ToastAndroid.show(`Export Failed: ${exporter.exportError}`, ToastAndroid.LONG);
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Export Failed",
+          text2: exporter.exportError,
+        });
+      }
     }
   };
 
@@ -85,7 +94,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e0e0e0",
+    backgroundColor: colors.background,
   },
   headerLeft: {
     flexDirection: "row",
