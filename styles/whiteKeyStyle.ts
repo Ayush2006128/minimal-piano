@@ -1,17 +1,18 @@
 import { StyleSheet } from "react-native";
+import { colors, radii } from "./theme";
 
 const whiteKeyStyle = StyleSheet.create({
     key: {
         flex: 1,
         height: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: colors.white,
         borderWidth: 1,
-        borderColor: '#ddd',
-        borderBottomLeftRadius: 6,
-        borderBottomRightRadius: 6,
+        borderColor: colors.border,
+        borderBottomLeftRadius: radii.key,
+        borderBottomRightRadius: radii.key,
         overflow: 'hidden',
         // Key depth shadow
-        shadowColor: '#000',
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -37,20 +38,20 @@ const whiteKeyStyle = StyleSheet.create({
     },
     label: {
         fontSize: 10,
-        color: '#aaa',
+        color: colors.mutedText,
         fontWeight: 'bold',
     },
     bottomLip: {
         height: 8,
-        backgroundColor: '#eee',
+        backgroundColor: colors.buttonBg,
         borderTopWidth: 1,
-        borderTopColor: '#ddd',
-        borderBottomLeftRadius: 6,
-        borderBottomRightRadius: 6,
+        borderTopColor: colors.border,
+        borderBottomLeftRadius: radii.key,
+        borderBottomRightRadius: radii.key,
     },
     bottomLipPressed: {
         height: 4,
-        backgroundColor: '#ddd',
+        backgroundColor: colors.border,
     },
 });
 

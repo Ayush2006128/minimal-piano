@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
 const keyboardStyle = StyleSheet.create({
     container: {
@@ -7,10 +8,10 @@ const keyboardStyle = StyleSheet.create({
     },
     topBar: {
         height: 12,
-        backgroundColor: "#222",
+        backgroundColor: colors.darkSurface,
         width: "100%",
         borderBottomWidth: 1,
-        borderBottomColor: "#000",
+        borderBottomColor: colors.shadow,
     },
     topBarHighlight: {
         height: 2,
@@ -23,7 +24,7 @@ const keyboardStyle = StyleSheet.create({
         left: 0,
         right: 0,
         height: 4,
-        backgroundColor: "#b22222", // Firebrick red felt
+        backgroundColor: colors.feltRed, // Firebrick red felt
         zIndex: 15,
         borderBottomWidth: 1,
         borderBottomColor: "rgba(0,0,0,0.2)",
@@ -33,7 +34,7 @@ const keyboardStyle = StyleSheet.create({
         flex: 1,
         width: "100%",
         position: "relative",
-        backgroundColor: "#fff",
+        backgroundColor: colors.white,
     },
     lidShadow: {
         position: "absolute",
