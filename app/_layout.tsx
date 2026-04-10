@@ -2,6 +2,7 @@ import LogRocket from "@logrocket/react-native";
 import * as NavigationBar from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
@@ -10,7 +11,7 @@ export default function RootLayout() {
   useEffect(() => {
     async function lockOrientation() {
       await ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.LANDSCAPE
+        ScreenOrientation.OrientationLock.LANDSCAPE,
       );
     }
 
@@ -21,8 +22,13 @@ export default function RootLayout() {
 
     hideNavigationBar();
     lockOrientation();
-    LogRocket.init('nmwfzu/minimal-piano');
+    LogRocket.init("nmwfzu/minimal-piano");
   }, []);
+
+  SplashScreen.setOptions({
+    duration: 1000,
+    fade: true,
+  });
 
   return (
     <>

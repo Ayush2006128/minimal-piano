@@ -13,14 +13,14 @@ import Animated, {
 } from "react-native-reanimated";
 
 export default function SponserBtn() {
-  const scale = useSharedValue(10);
+  const scale = useSharedValue(1);
 
   useEffect(() => {
     scale.value = withRepeat(
       withSequence(
-        withTiming(1.3, { duration: 300, easing: Easing.out(Easing.ease) }),
-        withTiming(1, { duration: 300, easing: Easing.in(Easing.ease) }),
-        withTiming(1.3, { duration: 300, easing: Easing.out(Easing.ease) }),
+        withTiming(1.5, { duration: 400, easing: Easing.out(Easing.ease) }),
+        withTiming(1, { duration: 400, easing: Easing.in(Easing.ease) }),
+        withTiming(1.5, { duration: 400, easing: Easing.out(Easing.ease) }),
         withTiming(1, { duration: 600, easing: Easing.in(Easing.ease) }),
       ),
       -1, // repeat forever
@@ -52,7 +52,7 @@ export default function SponserBtn() {
       }}
     >
       <Animated.View style={heartStyle}>
-        <Ionicons name="heart" size={15} color="#ff0000ff" />
+        <Ionicons name="heart" size={10} color="#ff0000ff" />
       </Animated.View>
       <Text
         style={{
