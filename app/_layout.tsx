@@ -7,6 +7,11 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
 
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true
+});
+
 export default function RootLayout() {
   useEffect(() => {
     async function lockOrientation() {
@@ -24,11 +29,6 @@ export default function RootLayout() {
     lockOrientation();
     LogRocket.init("nmwfzu/minimal-piano");
   }, []);
-
-  SplashScreen.setOptions({
-    duration: 1000,
-    fade: true,
-  });
 
   return (
     <>
