@@ -105,19 +105,17 @@ export function scheduleNoteRelease(
     gain.gain.cancelScheduledValues(releaseTime);
     filter.frequency.cancelScheduledValues(releaseTime);
 
-    gain.gain.setValueAtTime(gain.gain.value, releaseTime);
-    filter.frequency.setValueAtTime(filter.frequency.value, releaseTime);
+    gain.gain.setValueAtTime(Math.max(gain.gain.value, 0.002), releaseTime);
+    filter.frequency.setValueAtTime(Math.max(filter.frequency.value, 100), releaseTime);
 
     // Release envelope — 120ms fade out
     gain.gain.exponentialRampToValueAtTime(0.001, releaseTime + 0.12);
     filter.frequency.exponentialRampToValueAtTime(100, releaseTime + 0.12);
   } catch (_) {
-    // Fallback: immediate stop
+    // Fallback: micro-fade to avoid click
     try {
-      osc.stop();
-      osc.disconnect();
-      filter?.disconnect();
-      gain.disconnect();
+      gain.gain.setValueAtTime(0.002, releaseTime);
+      gain.gain.linearRampToValueAtTime(0, releaseTime + 0.02);
     } catch (__) {}
   }
 }

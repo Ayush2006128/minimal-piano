@@ -34,10 +34,20 @@ export function usePianoSound() {
       if (activeNotes.current.get(noteKey)?.osc === osc) {
         activeNotes.current.delete(noteKey);
         try {
-          osc.disconnect();
-          filter.disconnect();
-          gain.disconnect();
+          // Micro-fade before disconnect to prevent residual click
+          const now = audioContextRef.current?.currentTime;
+          if (now !== undefined) {
+            gain.gain.setValueAtTime(Math.max(gain.gain.value, 0.001), now);
+            gain.gain.linearRampToValueAtTime(0, now + 0.02);
+          }
         } catch (_) {}
+        setTimeout(() => {
+          try {
+            osc.disconnect();
+            filter.disconnect();
+            gain.disconnect();
+          } catch (_) {}
+        }, 30);
       }
     }, 2100);
   };
@@ -56,9 +66,9 @@ export function usePianoSound() {
         gain.gain.cancelScheduledValues(now);
         filter.frequency.cancelScheduledValues(now);
 
-        // Lock current values
-        gain.gain.setValueAtTime(gain.gain.value, now);
-        filter.frequency.setValueAtTime(filter.frequency.value, now);
+        // Lock current values (clamp to safe minimums for exponentialRamp)
+        gain.gain.setValueAtTime(Math.max(gain.gain.value, 0.002), now);
+        filter.frequency.setValueAtTime(Math.max(filter.frequency.value, 100), now);
 
         // Release envelope — 120ms fade
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
@@ -74,10 +84,20 @@ export function usePianoSound() {
           } catch (_) {}
         }, 150);
       } catch (_) {
-        osc.stop();
-        osc.disconnect();
-        filter?.disconnect();
-        gain.disconnect();
+        // Last-resort: micro-fade to avoid click, then disconnect
+        try {
+          const now = ctx.currentTime;
+          gain.gain.setValueAtTime(0.002, now);
+          gain.gain.linearRampToValueAtTime(0, now + 0.02);
+        } catch (__) {}
+        setTimeout(() => {
+          try {
+            osc.stop();
+            osc.disconnect();
+            filter?.disconnect();
+            gain.disconnect();
+          } catch (__) {}
+        }, 30);
       }
 
       activeNotes.current.delete(noteKey);
