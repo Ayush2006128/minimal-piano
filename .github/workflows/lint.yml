@@ -1,0 +1,26 @@
+name: Lint Expo Project
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  lint:
+    name: Run Expo Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # Matches most modern Expo SDKs
+          cache: 'npm'       # Change to 'yarn' or 'pnpm' if you use them
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Linting
+        run: npm run lint
