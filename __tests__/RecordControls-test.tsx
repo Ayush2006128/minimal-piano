@@ -46,9 +46,7 @@ describe('RecordControls', () => {
   it('calls onToggleRecord when record button is pressed', () => {
     const onToggleRecord = jest.fn();
     render(<RecordControls {...defaultProps} onToggleRecord={onToggleRecord} />);
-    const buttons = screen.getAllByRole('button');
-    // The record button is the first one
-    fireEvent.press(buttons[0]);
+    fireEvent.press(screen.getByTestId('record-button'));
     expect(onToggleRecord).toHaveBeenCalledTimes(1);
   });
 
@@ -58,10 +56,8 @@ describe('RecordControls', () => {
     render(
       <RecordControls {...defaultProps} onExport={onExport} onClear={onClear} hasRecording={false} />
     );
-    const buttons = screen.getAllByRole('button');
-    // Export button (second) and Clear button (third) should be disabled
-    fireEvent.press(buttons[1]);
-    fireEvent.press(buttons[2]);
+    fireEvent.press(screen.getByTestId('export-button'));
+    fireEvent.press(screen.getByTestId('clear-button'));
     expect(onExport).not.toHaveBeenCalled();
     expect(onClear).not.toHaveBeenCalled();
   });
@@ -77,9 +73,8 @@ describe('RecordControls', () => {
         hasRecording={true}
       />
     );
-    const buttons = screen.getAllByRole('button');
-    fireEvent.press(buttons[1]);
-    fireEvent.press(buttons[2]);
+    fireEvent.press(screen.getByTestId('export-button'));
+    fireEvent.press(screen.getByTestId('clear-button'));
     expect(onExport).toHaveBeenCalledTimes(1);
     expect(onClear).toHaveBeenCalledTimes(1);
   });

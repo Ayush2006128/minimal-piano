@@ -25,6 +25,8 @@ export default function OctaveControls({
   return (
     <View style={[octaveControlsStyle.outerContainer, disabled && octaveControlsStyle.disabled]}>
       <TouchableOpacity
+        testID="octave-down"
+        role="button"
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           onOctaveChange(Math.max(minOctave, currentOctave - 1));
@@ -43,6 +45,8 @@ export default function OctaveControls({
       </View>
 
       <TouchableOpacity
+        testID="octave-up"
+        role="button"
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           onOctaveChange(Math.min(maxOctave, currentOctave + 1));

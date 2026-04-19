@@ -92,8 +92,9 @@ jest.mock("expo-file-system", () => ({
 }));
 
 jest.mock("@react-native-async-storage/async-storage", () => ({
-  setItem: jest.fn(),
-  getItem: jest.fn(),
+  setItem: jest.fn().mockResolvedValue(undefined),
+  getItem: jest.fn().mockResolvedValue(null),
+  removeItem: jest.fn().mockResolvedValue(undefined),
 }));
 
 describe("Index (Home Screen)", () => {
