@@ -97,6 +97,8 @@ export default function RecordControls({
             />
           )}
           <TouchableOpacity
+            testID="record-button"
+            role="button"
             onPress={() => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
               onToggleRecord();
@@ -133,6 +135,8 @@ export default function RecordControls({
 
       {/* Export button */}
       <TouchableOpacity
+        testID="export-button"
+        role="button"
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           onExport();
@@ -152,6 +156,8 @@ export default function RecordControls({
 
       {/* Clear button */}
       <TouchableOpacity
+        testID="clear-button"
+        role="button"
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           onClear();

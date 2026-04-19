@@ -23,17 +23,13 @@ describe('OctaveControls', () => {
 
   it('calls onOctaveChange with decremented value when down is pressed', () => {
     render(<OctaveControls currentOctave={4} onOctaveChange={mockOnOctaveChange} />);
-    const buttons = screen.getAllByRole('button');
-    // First button is the decrement (chevron-back)
-    fireEvent.press(buttons[0]);
+    fireEvent.press(screen.getByTestId('octave-down'));
     expect(mockOnOctaveChange).toHaveBeenCalledWith(3);
   });
 
   it('calls onOctaveChange with incremented value when up is pressed', () => {
     render(<OctaveControls currentOctave={4} onOctaveChange={mockOnOctaveChange} />);
-    const buttons = screen.getAllByRole('button');
-    // Last button is the increment (chevron-forward)
-    fireEvent.press(buttons[buttons.length - 1]);
+    fireEvent.press(screen.getByTestId('octave-up'));
     expect(mockOnOctaveChange).toHaveBeenCalledWith(5);
   });
 
@@ -41,8 +37,7 @@ describe('OctaveControls', () => {
     render(
       <OctaveControls currentOctave={1} onOctaveChange={mockOnOctaveChange} minOctave={1} />
     );
-    const buttons = screen.getAllByRole('button');
-    fireEvent.press(buttons[0]);
+    fireEvent.press(screen.getByTestId('octave-down'));
     // Should not call because button is disabled at min
     expect(mockOnOctaveChange).not.toHaveBeenCalled();
   });
@@ -51,8 +46,7 @@ describe('OctaveControls', () => {
     render(
       <OctaveControls currentOctave={7} onOctaveChange={mockOnOctaveChange} maxOctave={7} />
     );
-    const buttons = screen.getAllByRole('button');
-    fireEvent.press(buttons[buttons.length - 1]);
+    fireEvent.press(screen.getByTestId('octave-up'));
     // Should not call because button is disabled at max
     expect(mockOnOctaveChange).not.toHaveBeenCalled();
   });
@@ -61,10 +55,8 @@ describe('OctaveControls', () => {
     render(
       <OctaveControls currentOctave={4} onOctaveChange={mockOnOctaveChange} disabled={true} />
     );
-    const buttons = screen.getAllByRole('button');
-    for (const button of buttons) {
-      fireEvent.press(button);
-    }
+    fireEvent.press(screen.getByTestId('octave-down'));
+    fireEvent.press(screen.getByTestId('octave-up'));
     expect(mockOnOctaveChange).not.toHaveBeenCalled();
   });
 });

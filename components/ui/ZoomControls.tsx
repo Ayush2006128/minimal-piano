@@ -23,6 +23,8 @@ export default function ZoomControls({
   return (
     <View style={zoomControlsStyle.outerContainer}>
       <TouchableOpacity
+        testID="zoom-down"
+        role="button"
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           onZoomChange(Math.max(minZoom, zoom - 1));
@@ -41,6 +43,8 @@ export default function ZoomControls({
       </View>
 
       <TouchableOpacity
+        testID="zoom-up"
+        role="button"
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           onZoomChange(Math.min(maxZoom, zoom + 1));
